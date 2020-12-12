@@ -5,22 +5,36 @@ namespace CAS
 {
     public class CarAlarmSystem : ICarAlarmSystem
     {
-        public bool opened = false;
-        public bool closed = true;
-        public bool locked = true;
-        public bool unlocked = false;
-        public bool flash = false;
-        public bool sound = false;
-        public bool armed = false;
+        public bool opened;
+        public bool closed;
+        public bool locked;
+        public bool unlocked;
+        public bool flash;
+        public bool sound;
+        public bool armed;
+
+        public CarAlarmSystem(bool opened, bool closed, bool locked, bool unlocked, bool flash, bool sound, bool armed)
+        {
+            this.opened = opened;
+            this.closed = closed;
+            this.locked = locked;
+            this.unlocked = unlocked;
+            this.flash = flash;
+            this.sound = sound;
+            this.armed = armed;
+        }
 
         public void lockcar()
         {
-            this.armed = true;
             this.locked = true;
+            this.unlocked = false;
+            if (this.closed)
+            {
+                this.armed = true;
+            }
         }
         public void unlock()
         {
-            Console.WriteLine("Unlocking");
             this.armed = false;
             this.flash = false;
             this.sound = false;
@@ -29,31 +43,48 @@ namespace CAS
         public void close()
         {
             this.opened = false;
+            this.closed = true;
+            if (this.locked)
+            {
+                this.armed = true;
+            }
         }
         public void open()
         {
-            if (this.armed == true)
+            open();
+            if (this.armed)
             {
-                this.sound = true;
-                Console.Out.WriteLine("**!!!**");
-                tick();
-                tick();
-                tick();
-
+                this.armed = false;
                 this.flash = true;
+                this.sound = true;
 
-                for (int i = 0; i < 30; i++)
+                if (this.unlocked)
                 {
-                    Console.Out.WriteLine("**Flashing!!!**");
-                    tick();
+                    unlock();
+                }
+                else
+                {
+                    for (int i = 0; i < 30; i++)
+                    {
+                        if (i == 3)
+                        {
+                            this.sound = false;
+                        }
+                        tick();
+                    }
                 }
 
-                this.opened = true;
-            }
-            else
-            {
-                Console.Out.WriteLine("No alarm.");
-                this.opened = true;
+                this.flash = false;
+                if (this.unlocked)
+                {
+                    unlock();
+                }
+                else if (this.closed)
+                {
+                    this.armed = true;
+                    close();
+                }
+                unlock();
             }
         }
         public void tick()

@@ -1,11 +1,19 @@
 using NUnit.Framework;
 using CAS;
+using System;
 
 namespace CarAlarmSystemTest
 {
     public class CASTests
     {
-        public CAS.CarAlarmSystem testCas = new CAS.CarAlarmSystem();
+        public CAS.CarAlarmSystem testCas = new CAS.CarAlarmSystem(false, true, true, false, false, false, false);
+
+        private static bool GetRandomBool()
+        {
+            Random rng = new Random();
+            bool randomBool = rng.Next(0, 2) > 0;
+            return randomBool;
+        }
 
         [SetUp]
         public void Setup()
@@ -26,14 +34,6 @@ namespace CarAlarmSystemTest
         {
             testCas.unlock();
             Assert.IsFalse(testCas.armed);
-        }
-
-        [Test]
-        public void CAS_IsArmedAndOpened_ExpectFlashingAndNoisy()
-        {
-            testCas.open();
-            Assert.IsTrue(testCas.flash);
-            Assert.IsTrue(testCas.sound);
         }
 
         [Test]
