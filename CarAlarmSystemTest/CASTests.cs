@@ -8,13 +8,6 @@ namespace CarAlarmSystemTest
     {
         public CAS.CarAlarmSystem testCas = new CAS.CarAlarmSystem(false, true, true, false, false, false, false);
 
-        private static bool GetRandomBool()
-        {
-            Random rng = new Random();
-            bool randomBool = rng.Next(0, 2) > 0;
-            return randomBool;
-        }
-
         [SetUp]
         public void Setup()
         {
