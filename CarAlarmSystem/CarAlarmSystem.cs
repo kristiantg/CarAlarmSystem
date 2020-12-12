@@ -36,9 +36,8 @@ namespace CAS
         public void unlock()
         {
             this.armed = false;
-            this.flash = false;
-            this.sound = false;
             this.locked = false;
+            this.unlocked = true;
         }
         public void close()
         {
@@ -52,41 +51,35 @@ namespace CAS
         public void open()
         {
             this.opened = true;
+            this.closed = false;
             if (this.armed)
             {
                 this.armed = false;
                 this.flash = true;
                 this.sound = true;
 
-                if (this.unlocked)
+                if (!this.unlocked)
                 {
-                    unlock();
-                }
-                else
-                {
-                    for (int i = 0; i < 30; i++)
-                    {
-                        if (i == 3)
-                        {
-                            this.sound = false;
-                        }
-                        tick();
-                    }
+                    FlashAlarm();
                 }
 
-                this.flash = false;
-                if (this.unlocked)
-                {
-                    unlock();
-                }
-                else if (this.closed)
-                {
-                    this.armed = true;
-                    close();
-                }
                 unlock();
             }
         }
+
+        public void FlashAlarm()
+        {
+            for (int i = 0; i < 30; i++)
+            {
+                if (i == 3)
+                {
+                    this.sound = false;
+                }
+                //tick();
+            }
+            this.flash = false;
+        }
+
         public void tick()
         {
             Thread.Sleep(1000);
