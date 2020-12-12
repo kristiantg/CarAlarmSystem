@@ -18,6 +18,7 @@ namespace CarAlarmSystemTest
         public void CAS_IsLockedAndClosed_ExpectArmedTrue()
         {
             testCas.unlock();
+            testCas.close();
             testCas.lockcar();
             Assert.IsTrue(testCas.armed);
         }
@@ -33,6 +34,7 @@ namespace CarAlarmSystemTest
         public void CAS_IsArmedAndClosed_ExpectNoFlashAndSilence()
         {
             testCas.close();
+            testCas.armed = true;
             Assert.IsFalse(testCas.flash);
             Assert.IsFalse(testCas.sound);
         }
@@ -40,6 +42,7 @@ namespace CarAlarmSystemTest
         [Test]
         public void CAS_IsArmedAndThenUnlocked_ExpectArmedFalse()
         {
+            testCas.armed = true;
             testCas.unlock();
             Assert.IsFalse(testCas.armed);
         }
