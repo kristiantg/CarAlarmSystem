@@ -51,7 +51,7 @@ namespace CAS
         }
         public void open()
         {
-            open();
+            this.opened = true;
             if (this.armed)
             {
                 this.armed = false;

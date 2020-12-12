@@ -46,5 +46,66 @@ namespace CarAlarmSystemTest
             testCas.unlock();
             Assert.IsFalse(testCas.armed);
         }
+
+        [Test]
+        public void CAS_CASIsLocked_ExpectOpenedFalse()
+        {
+            Assert.IsFalse(testCas.opened);
+        }
+
+        [Test]
+        public void CAS_IsUnlocked()
+        {
+            testCas.unlock();
+
+            Assert.IsFalse(testCas.armed);
+            Assert.IsFalse(testCas.flash);
+            Assert.IsFalse(testCas.sound);
+            Assert.IsFalse(testCas.locked);
+        }
+
+
+        [Test]
+        public void CAS_IsLockedWhileClosed()
+        {
+            testCas.close();
+            testCas.lockcar();
+
+            Assert.IsTrue(testCas.locked);
+            Assert.IsFalse(testCas.unlocked);
+            Assert.IsTrue(testCas.armed);
+        }
+
+
+        [Test]
+        public void CAS_IsLockedWhileNotClosed()
+        {
+            testCas.lockcar();
+
+            Assert.IsTrue(testCas.locked);
+            Assert.IsFalse(testCas.unlocked);
+        }
+
+        [Test]
+        public void CAS_IsClosedWhileLocked()
+        {
+            testCas.lockcar();
+            testCas.close();
+
+            Assert.IsTrue(testCas.closed);
+            Assert.IsFalse(testCas.opened);
+            Assert.IsTrue(testCas.armed);
+        }
+
+        [Test]
+        public void CAS_IsClosedWhileNotLocked()
+        {
+            testCas.unlock();
+            testCas.close();
+
+            Assert.IsTrue(testCas.closed);
+            Assert.IsFalse(testCas.opened);
+            Assert.IsFalse(testCas.armed);
+        }
     }
 }
