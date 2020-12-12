@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CarAlarmSystem
+namespace CAS
 {
     interface ICarAlarmSystem
     {
@@ -10,5 +10,6 @@ namespace CarAlarmSystem
         void unlock();
         void close();
         void open();
+        void tick();
     }
 }
